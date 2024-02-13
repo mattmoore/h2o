@@ -1,6 +1,6 @@
 use clap::Parser;
 
-use libwater::add;
+use libwater::*;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -14,4 +14,5 @@ fn main() {
 
     println!("{}!", args.game);
     println!("Result: {}!", add(1, 2));
+    println!("{}", compress("file.txt"));
 }

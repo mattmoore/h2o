@@ -2,6 +2,10 @@ pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
 
+pub fn compress(file: &str) -> String {
+    return format!("Compressing {file}");
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
