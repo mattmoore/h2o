@@ -1,5 +1,7 @@
 use clap::Parser;
 
+use libwater::add;
+
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
@@ -10,5 +12,6 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
-    println!("{}!", args.game)
+    println!("{}!", args.game);
+    println!("Result: {}!", add(1, 2));
 }
