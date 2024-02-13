@@ -14,5 +14,5 @@ fn main() {
 
     println!("{}!", args.game);
     println!("Result: {}!", add(1, 2));
-    println!("{}", compress("file.txt"));
+    println!("{}", decompress("file.txt"));
 }
