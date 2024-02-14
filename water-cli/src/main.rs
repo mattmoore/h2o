@@ -7,11 +7,17 @@ use libwater::*;
 struct Args {
     #[arg(short, long)]
     game: String,
+
+    #[arg(short, long)]
+    source: String,
+
+    #[arg(short, long)]
+    target: String,
 }
 
 fn main() {
     let args = Args::parse();
 
     println!("{}!", args.game);
-    let _ = process_file("/home/mattmoore/source/mattmoore/games/water/test_data/test_data.txt");
+    let _ = decompress(args.source, args.target);
 }
