@@ -13,6 +13,5 @@ fn main() {
     let args = Args::parse();
 
     println!("{}!", args.game);
-    println!("Result: {}!", add(1, 2));
-    println!("{}", decompress("file.txt"));
+    let _ = process_file("/home/mattmoore/source/mattmoore/games/water/test_data/test_data.txt");
 }
