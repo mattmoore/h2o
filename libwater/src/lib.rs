@@ -1,40 +1,40 @@
-use std::io;
-use std::str;
+use dirs::home_dir;
 use std::fs::File;
-use std::io::prelude::*;
+use std::io;
+use std::process::Command;
 use tar::Archive;
-use xz::read::{XzEncoder, XzDecoder};
+use xz::read::XzDecoder;
 
-pub fn decompress(source: String, target: String) -> io::Result<()> {
-   let tar_xz = File::open(source)?;
-   let tar = XzDecoder::new(tar_xz);
-   let mut archive = Archive::new(tar);
-   archive.unpack(target)?;
+pub fn unpack_game(game: &str) -> io::Result<()> {
+    if let Some(home) = home_dir() {
+        let source =
+            format!("/home/mattmoore/source/mattmoore/games/{game}/{game}-linux-x86_64.tar.xz");
+        let target = home.join(".water").join("games");
 
-   Ok(())
-}
+        println!("Installing {game}.");
 
-pub fn xz_compress(content: &str) -> XzEncoder<&[u8]> {
-    return XzEncoder::new(content.as_bytes(), 9);
-}
+        let tar_xz = File::open(source)?;
+        let tar = XzDecoder::new(tar_xz);
+        let _ = Archive::new(tar).unpack(target);
 
-pub fn xz_decompress(data: XzEncoder<&[u8]>) -> String {
-    let mut contents = String::new();
-    XzDecoder::new(data)
-        .read_to_string(&mut contents)
-        .unwrap();
-    return contents;
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn compression_test() {
-        let original = String::from("Hello, World!");
-        let compressed = xz_compress(&original);
-        let decompressed = xz_decompress(compressed);
-        assert_eq!(decompressed, original);
+        println!("Finished installing {game}.");
     }
+
+    Ok(())
+}
+
+pub fn run_game(game: &str) -> io::Result<()> {
+    if let Some(home) = home_dir() {
+        let target = home
+            .join(".water")
+            .join("games")
+            .join(game)
+            .join("fantasy.sh");
+
+        println!("target: {}", target.display());
+        println!("Running {game}...");
+        let _ = Command::new(target).output();
+    }
+
+    Ok(())
 }
