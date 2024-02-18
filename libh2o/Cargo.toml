@@ -11,5 +11,6 @@ edition = "2021"
 [dependencies]
 dirs = "5.0.1"
 reqwest = "0.11.24"
+serde = "1.0.196"
 tar = "0.4.40"
 xz = "0.1.0"
