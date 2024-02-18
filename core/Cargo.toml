@@ -1,12 +1,10 @@
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [package]
-name = "core"
+name = "h2o"
 version = "0.1.0"
 edition = "2021"
 
-#[lib]
-#crate-type = ["cdylib"]
+[lib]
+crate-type = ["lib", "dylib", "staticlib"]
 
 [dependencies]
 dirs = "5.0.1"
