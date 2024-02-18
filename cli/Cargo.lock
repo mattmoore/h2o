@@ -360,6 +360,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "h2o"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "libh2o",
+]
+
+[[package]]
 name = "hashbrown"
 version = "0.14.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -496,6 +504,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9c198f91728a82281a64e1f4f9eeb25d82cb32a5de251c6bd1b5154d63a8e7bd"
 
 [[package]]
+name = "libh2o"
+version = "0.1.0"
+dependencies = [
+ "dirs",
+ "reqwest",
+ "tar",
+ "xz",
+]
+
+[[package]]
 name = "libredox"
 version = "0.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -504,16 +522,6 @@ dependencies = [
  "bitflags 2.4.2",
  "libc",
  "redox_syscall",
-]
-
-[[package]]
-name = "libwater"
-version = "0.1.0"
-dependencies = [
- "dirs",
- "reqwest",
- "tar",
- "xz",
 ]
 
 [[package]]
@@ -1180,14 +1188,6 @@ name = "wasm-bindgen-shared"
 version = "0.2.91"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4f186bd2dcf04330886ce82d6f33dd75a7bfcf69ecf5763b89fcde53b6ac9838"
-
-[[package]]
-name = "water-cli"
-version = "0.1.0"
-dependencies = [
- "clap",
- "libwater",
-]
 
 [[package]]
 name = "web-sys"
