@@ -11,4 +11,4 @@ path = "src/main.rs"
 
 [dependencies]
 clap = { version = "4.5.0", features = ["derive", "cargo"] }
-libh2o = { path = "../libh2o" }
+core = { path = "../core" }

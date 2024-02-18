@@ -1,6 +1,6 @@
 use clap::{Parser, Subcommand};
 
-use libh2o::*;
+use core::*;
 
 #[derive(Subcommand, Debug, Clone)]
 enum Commands {
