@@ -34,13 +34,15 @@ pub fn list() -> Result<()> {
         let h2o_dir = &home.join(".h2o");
         let catalog = catalog()?;
 
-        for item in catalog.keys() {
-            let catalog_item = catalog.get(item).unwrap();
+        for key in catalog.keys() {
+            let catalog_item = catalog.get(key).unwrap();
             println!("{}", catalog_item.name);
             let entrypoint = &h2o_dir.join("games").join(&catalog_item.entrypoint);
             if Path::new(entrypoint).exists() {
                 println!("\tInstalled to: {}", entrypoint.display());
-                println!("\tTo run: h2o run {}", item);
+                println!("\tTo run: h2o run {}", key);
+            } else {
+                println!("\th2o install {}\n", key);
             }
         }
     }
