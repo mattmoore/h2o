@@ -86,7 +86,8 @@ pub fn install(game: String) -> Result<()> {
         let catalog_item = catalog.get(&game).unwrap();
         let downloaded_file = h2o_dir.join("downloads").join(&catalog_item.download_file);
         if !Path::new(&downloaded_file).exists() {
-            println!("{game} needs to be downloaded first.");
+            println!("'{game}' needs to be downloaded first:");
+            println!("\n\th2o download fantasy\n");
         } else {
             let _ = unpack(h2o_dir.to_path_buf(), game);
         }
