@@ -2,7 +2,7 @@ use dirs::home_dir;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::Result;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process::Command;
 use tar::Archive;
 use xz::read::XzDecoder;
@@ -24,20 +24,23 @@ pub fn catalog() -> Result<HashMap<String, CatalogItem>> {
             download_target: String::from("fantasy-linux-x86_64.tar.xz"),
         },
     );
-    catalog.insert(
-        String::from("test"),
-        CatalogItem {
-            name: String::from("Fantasy"),
-            target: String::from("Fantasy/Fantasy.sh"),
-            download_target: String::from(""),
-        },
-    );
     Ok(catalog)
 }
 
 pub fn list() -> Result<()> {
-    for item in catalog()?.keys() {
-        println!("{item}")
+    if let Some(home) = home_dir() {
+        let h2o_dir = &home.join(".h2o");
+        let catalog = catalog()?;
+
+        for item in catalog.keys() {
+            let catalog_item = catalog.get(item).unwrap();
+            print!("{}", catalog_item.name);
+            let game_target = &h2o_dir.join("games").join(&catalog_item.target);
+            if Path::new(game_target).exists() {
+                print!(" (Installed to {})", game_target.display());
+            }
+            println!();
+        }
     }
 
     Ok(())
