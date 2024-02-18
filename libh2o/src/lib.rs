@@ -34,12 +34,12 @@ pub fn list() -> Result<()> {
 
         for item in catalog.keys() {
             let catalog_item = catalog.get(item).unwrap();
-            print!("{}", catalog_item.name);
+            println!("{}", catalog_item.name);
             let game_target = &h2o_dir.join("games").join(&catalog_item.target);
             if Path::new(game_target).exists() {
-                print!(" (Installed to {})", game_target.display());
+                println!("\tInstalled to: {}", game_target.display());
+                println!("\tTo run: h2o run {}", item);
             }
-            println!();
         }
     }
 
