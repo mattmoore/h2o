@@ -6,11 +6,17 @@ use h2o::*;
 enum Commands {
     #[command(about = "List available games.")]
     List,
-    #[command(about = "Install a game.")]
+
+    #[command(about = "Download game.")]
+    Download { game: String },
+
+    #[command(about = "Install game.")]
     Install { game: String },
-    #[command(about = "Uninstall a game.")]
+
+    #[command(about = "Uninstall game.")]
     Uninstall { game: String },
-    #[command(about = "Run a game.")]
+
+    #[command(about = "Run game.")]
     Run { game: String },
 }
 
@@ -26,6 +32,9 @@ fn main() {
     match &cmd.action {
         Commands::List => {
             list().expect("Failed to list catalog.")
+        }
+        Commands::Download { game } => {
+            download(game.to_string()).expect("Failed to install {game}.")
         }
         Commands::Install { game } => {
             install(game.to_string()).expect("Failed to install {game}.")

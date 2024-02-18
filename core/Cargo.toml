@@ -8,7 +8,7 @@ crate-type = ["lib", "dylib", "staticlib"]
 
 [dependencies]
 dirs = "5.0.1"
-reqwest = "0.11.24"
+reqwest = { version = "0.11.24", features = ["blocking"] }
 serde = "1.0.196"
 tar = "0.4.40"
 xz = "0.1.0"
