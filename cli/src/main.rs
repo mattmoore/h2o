@@ -8,6 +8,8 @@ enum Commands {
     List,
     #[command(about = "Install a game.")]
     Install { game: String },
+    #[command(about = "Uninstall a game.")]
+    Uninstall { game: String },
     #[command(about = "Run a game.")]
     Run { game: String },
 }
@@ -27,6 +29,9 @@ fn main() {
         }
         Commands::Install { game } => {
             install(game.to_string()).expect("Failed to install {game}.")
+        }
+        Commands::Uninstall { game } => {
+            uninstall(game.to_string()).expect("Failed to install {game}.")
         }
         Commands::Run { game } => {
             run(game.to_string()).expect("Failed to run {game}.")
