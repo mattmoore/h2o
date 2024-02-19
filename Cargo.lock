@@ -154,6 +154,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "clap_complete"
+version = "4.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "885e4d7d5af40bfb99ae6f9433e292feac98d452dcb3ec3d25dfe7552b77da8c"
+dependencies = [
+ "clap",
+]
+
+[[package]]
 name = "clap_derive"
 version = "4.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -176,7 +185,8 @@ name = "cli"
 version = "0.1.0"
 dependencies = [
  "clap",
- "h2o",
+ "clap_complete",
+ "core",
 ]
 
 [[package]]
@@ -184,6 +194,17 @@ name = "colorchoice"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "acbf1af155f9b9ef647e42cdc158db4b64a1b61f743629225fde6f3e0be2a7c7"
+
+[[package]]
+name = "core"
+version = "0.1.0"
+dependencies = [
+ "dirs",
+ "reqwest",
+ "serde",
+ "tar",
+ "xz",
+]
 
 [[package]]
 name = "core-foundation"
@@ -377,17 +398,6 @@ dependencies = [
  "tokio",
  "tokio-util",
  "tracing",
-]
-
-[[package]]
-name = "h2o"
-version = "0.1.0"
-dependencies = [
- "dirs",
- "reqwest",
- "serde",
- "tar",
- "xz",
 ]
 
 [[package]]

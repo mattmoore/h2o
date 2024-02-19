@@ -1,49 +1,17 @@
-use clap::{Parser, Subcommand};
+mod cli;
 
+use clap::{CommandFactory, Parser};
+use cli::*;
 use h2o::*;
 
-#[derive(Subcommand, Debug, Clone)]
-enum Commands {
-    #[command(about = "List available games.")]
-    List,
-
-    #[command(about = "Download game.")]
-    Download { game: String },
-
-    #[command(about = "Install game.")]
-    Install { game: String },
-
-    #[command(about = "Uninstall game.")]
-    Uninstall { game: String },
-
-    #[command(about = "Play game.")]
-    Play { game: String },
-}
-
-#[derive(Parser)]
-#[command(author, version, about, long_about = None)]
-struct Args {
-    #[clap(subcommand)]
-    action: Commands,
-}
-
 fn main() {
-    let cmd = Args::parse();
-    match &cmd.action {
-        Commands::List => {
-            list().expect("Failed to list catalog.")
-        }
-        Commands::Download { game } => {
-            download(game.to_string()).expect("Failed to install {game}.")
-        }
-        Commands::Install { game } => {
-            install(game.to_string()).expect("Failed to install {game}.")
-        }
-        Commands::Uninstall { game } => {
-            uninstall(game.to_string()).expect("Failed to install {game}.")
-        }
-        Commands::Play { game } => {
-            play(game.to_string()).expect("Failed to run {game}.")
-        }
+    let _m = Args::command().get_matches();
+
+    match Args::parse().action {
+        Commands::List => list().expect("Failed to list catalog."),
+        Commands::Download { game } => download(&game).expect("Failed to install {game}."),
+        Commands::Install { game } => install(&game).expect("Failed to install {game}."),
+        Commands::Uninstall { game } => uninstall(&game).expect("Failed to install {game}."),
+        Commands::Play { game } => play(&game).expect("Failed to run {game}."),
     }
 }

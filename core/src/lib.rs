@@ -1,10 +1,10 @@
+use reqwest::blocking::Client;
 use std::fs;
 use std::fs::*;
 use std::io::*;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::time::Duration;
-use reqwest::blocking::Client;
 use tar::Archive;
 use xz::read::XzDecoder;
 
@@ -37,10 +37,10 @@ pub fn list() -> Result<()> {
     Ok(())
 }
 
-pub fn download(game: String) -> Result<()> {
+pub fn download(game: &str) -> Result<()> {
     if let Some(h2o_dir) = h2o_dir() {
         let catalog = load_catalog();
-        let catalog_item = catalog.get(&game).unwrap();
+        let catalog_item = catalog.get(game).unwrap();
         let download_dir = h2o_dir.join("downloads");
         let download_file = download_dir.join(&catalog_item.download_file);
         let _ = fs::create_dir_all(&download_dir);
@@ -53,8 +53,8 @@ pub fn download(game: String) -> Result<()> {
             .unwrap();
         let response = client.get(&catalog_item.download_source).send().unwrap();
         let buffer = response.bytes().expect("body invalid");
-        let mut out = File::create(download_file).expect("Failed to create file");
-        std::io::copy(&mut &buffer[..], &mut out).expect("failed to copy content");
+        let mut out = File::create(download_file).expect("Failed to create file.");
+        std::io::copy(&mut &buffer[..], &mut out).expect("Failed to copy content.");
 
         println!("Download completed.");
     }
@@ -62,27 +62,44 @@ pub fn download(game: String) -> Result<()> {
     Ok(())
 }
 
-pub fn install(game: String) -> Result<()> {
+pub fn is_installed(game: &str) -> bool {
     if let Some(h2o_dir) = h2o_dir() {
         let catalog = load_catalog();
-        let catalog_item = catalog.get(&game).unwrap();
-        let downloaded_file = h2o_dir.join("downloads").join(&catalog_item.download_file);
+        let catalog_item = catalog.get(game).unwrap();
+        let installed_entrypoint = &h2o_dir.join("games").join(&catalog_item.entrypoint);
+        return Path::new(installed_entrypoint).exists()
+    }
+    false
+}
 
-        if !Path::new(&downloaded_file).exists() {
-            println!("'{game}' needs to be downloaded first:");
-            println!("\n\th2o download fantasy\n");
-        } else {
-            let _ = unpack(h2o_dir.to_path_buf(), game);
+pub fn install(game: &str) -> Result<()> {
+    if let Some(h2o_dir) = h2o_dir() {
+        let catalog = load_catalog();
+        let catalog_item = catalog.get(game).unwrap();
+
+        if is_installed(game) {
+            println!("'{game}' is already installed. To play it:");
+            println!("\n\th2o play {game}\n");
+            return Ok(())
         }
+
+        let downloaded_file = &h2o_dir.join("downloads").join(&catalog_item.download_file);
+        if !Path::new(downloaded_file).exists() {
+            println!("'{game}' needs to be downloaded first. Automatically downloading:");
+            println!("h2o download fantasy");
+            let _ = download(game);
+        }
+
+        let _ = unpack(h2o_dir.to_path_buf(), game);
     }
 
     Ok(())
 }
 
-pub fn uninstall(game: String) -> Result<()> {
+pub fn uninstall(game: &str) -> Result<()> {
     if let Some(h2o_dir) = h2o_dir() {
         let catalog = load_catalog();
-        let catalog_item = catalog.get(&game).unwrap();
+        let catalog_item = catalog.get(game).unwrap();
         let game_dir = h2o_dir.join("games").join(&catalog_item.directory);
         let _ = remove_dir_all(game_dir);
     }
@@ -90,7 +107,7 @@ pub fn uninstall(game: String) -> Result<()> {
     Ok(())
 }
 
-pub fn unpack(h2o_dir: PathBuf, game: String) -> Result<()> {
+pub fn unpack(h2o_dir: PathBuf, game: &str) -> Result<()> {
     let source = h2o_dir
         .join("downloads")
         .join(format!("{game}-linux-x86_64.tar.xz"));
@@ -107,11 +124,11 @@ pub fn unpack(h2o_dir: PathBuf, game: String) -> Result<()> {
     Ok(())
 }
 
-pub fn play(game: String) -> Result<()> {
+pub fn play(game: &str) -> Result<()> {
     if let Some(h2o_dir) = h2o_dir() {
         let catalog = load_catalog();
         let game_target = &catalog
-            .get(&game)
+            .get(game)
             .expect("Catalog item doesn't exist")
             .to_owned()
             .entrypoint;
