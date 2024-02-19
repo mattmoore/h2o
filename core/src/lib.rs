@@ -3,6 +3,8 @@ use std::fs::*;
 use std::io::*;
 use std::path::{Path, PathBuf};
 use std::process::Command;
+use std::time::Duration;
+use reqwest::blocking::Client;
 use tar::Archive;
 use xz::read::XzDecoder;
 
@@ -45,8 +47,11 @@ pub fn download(game: String) -> Result<()> {
 
         println!("Downloading {game}. This may take a while...");
 
-        let response =
-            reqwest::blocking::get(&catalog_item.download_source).expect("request failed");
+        let client = Client::builder()
+            .timeout(Duration::from_secs(60 * 60))
+            .build()
+            .unwrap();
+        let response = client.get(&catalog_item.download_source).send().unwrap();
         let buffer = response.bytes().expect("body invalid");
         let mut out = File::create(download_file).expect("Failed to create file");
         std::io::copy(&mut &buffer[..], &mut out).expect("failed to copy content");

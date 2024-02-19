@@ -10,7 +10,7 @@ pub fn load_catalog() -> HashMap<String, CatalogItem> {
             name: String::from("Fantasy"),
             directory: String::from("Fantasy"),
             download_source: String::from(
-                "http://files.mattmoore.io:1234/fantasy-linux-x86_64.tar.xz",
+                "http://143.244.222.68/fantasy-linux-x86_64.tar.xz",
             ),
             download_file: String::from("fantasy-linux-x86_64.tar.xz"),
             entrypoint: String::from("Fantasy/Fantasy.sh"),
