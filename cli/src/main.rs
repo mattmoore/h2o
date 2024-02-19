@@ -16,8 +16,8 @@ enum Commands {
     #[command(about = "Uninstall game.")]
     Uninstall { game: String },
 
-    #[command(about = "Run game.")]
-    Run { game: String },
+    #[command(about = "Play game.")]
+    Play { game: String },
 }
 
 #[derive(Parser)]
@@ -42,8 +42,8 @@ fn main() {
         Commands::Uninstall { game } => {
             uninstall(game.to_string()).expect("Failed to install {game}.")
         }
-        Commands::Run { game } => {
-            run(game.to_string()).expect("Failed to run {game}.")
+        Commands::Play { game } => {
+            play(game.to_string()).expect("Failed to run {game}.")
         }
     }
 }
